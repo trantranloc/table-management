@@ -1,7 +1,6 @@
 package com.spring_table_management.model;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
@@ -12,8 +11,8 @@ import lombok.*;
 public class TableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(name = "table_number", nullable = false, unique = true, length = 10)
     private String tableNumber;

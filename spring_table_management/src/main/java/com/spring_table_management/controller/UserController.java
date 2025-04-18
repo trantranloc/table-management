@@ -22,21 +22,16 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<?> getAllUsers() {
-        return ResponseUtil.response(ApiStatus.SUCCESS,userService.getAllUsers());
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
-        Optional<UserEntity> userOpt = userService.getUserById(id);
-
-        if (userOpt.isEmpty()) {
-            return ResponseUtil.response(ApiStatus.USER_NOT_FOUND);
-        }
-
-        return ResponseUtil.response(ApiStatus.SUCCESS, userOpt);
+        return userService.findUserById(id);
     }
+
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody UserEntity user) {

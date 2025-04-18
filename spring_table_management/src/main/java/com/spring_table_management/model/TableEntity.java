@@ -25,7 +25,6 @@ public class TableEntity {
 
     public enum Status {
         UNAVAILABLE,
-        PROCESSING,
         AVAILABLE;
     }
 

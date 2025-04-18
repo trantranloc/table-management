@@ -20,7 +20,9 @@ public enum ApiStatus {
     USER_ALREADY_EXISTS(409, false, "User already exists"),
     PRODUCT_NOT_FOUND(404, false, "Product not found"),
     ORDER_NOT_FOUND(404, false, "Order not found"),
-    VALIDATION_FAILED(400, false, "Invalid data");
+    VALIDATION_FAILED(400, false, "Invalid data"),
+    TABLE_UNAVAILABLE(404, false, "Table unavailable"),;
+
 
     private final int statusCode;
     private final boolean success;

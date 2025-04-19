@@ -2,7 +2,6 @@ package com.spring_table_management.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -22,8 +21,9 @@ public class UserEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(name = "full_name", length = 100)
-    private String fullName;
+     @Column()
+    private String phone;
+    
     @Column(name = "email", length = 100)
     private String email;
 
@@ -66,13 +66,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getEmail() {
         return email;
@@ -81,6 +74,14 @@ public class UserEntity {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
 
     public List<RoleEntity> getRoles() {
         return roles;

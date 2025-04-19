@@ -1,6 +1,5 @@
 package com.spring_table_management.service;
 
-import com.spring_table_management.dto.response.ApiResponse;
 import com.spring_table_management.dto.response.ApiStatus;
 import com.spring_table_management.dto.response.ResponseUtil;
 import com.spring_table_management.model.RoleEntity;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -73,11 +71,11 @@ public class UserService {
         if (user.getUsername() != null) {
             userEntity.setUsername(user.getUsername());
         }
-        if (user.getFullName() != null) {
-            userEntity.setFullName(user.getFullName());
-        }
         if (user.getEmail() != null) {
             userEntity.setEmail(user.getEmail());
+        }
+        if (user.getPhone() != null) {
+            userEntity.setPhone(user.getPhone());
         }
         if (user.getPassword() != null) {
             userEntity.setPassword(passwordEncoder.encode(user.getPassword()));

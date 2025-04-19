@@ -4,7 +4,6 @@ package com.spring_table_management.dto.request;
 
 public class RegisterRequest {
     private String email;
-    private String fullName ;
     private String username;
     private String password;
 
@@ -16,13 +15,6 @@ public class RegisterRequest {
         this.email = email;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getPassword() {
         return password;

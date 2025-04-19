@@ -39,7 +39,6 @@ public class DataInitializer implements ApplicationRunner {
             UserEntity admin = new UserEntity();
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setFullName("Administrator");
             admin.setEmail("admin@gmail.com");
             admin.setRoles(Collections.singletonList(adminRole));
             admin.setStatus(UserEntity.Status.ACTIVE);

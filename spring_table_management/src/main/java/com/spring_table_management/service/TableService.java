@@ -2,7 +2,6 @@ package com.spring_table_management.service;
 
 import com.spring_table_management.dto.response.ApiStatus;
 import com.spring_table_management.model.TableEntity;
-import com.spring_table_management.model.UserEntity;
 import com.spring_table_management.repository.TableRepository;
 import org.springframework.stereotype.Service;
 

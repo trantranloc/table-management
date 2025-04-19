@@ -4,17 +4,17 @@ public class ApiResponse<T> {
     private int status;
     private boolean success;
     private String message;
-    private T data;
+    private T result;
 
     // constructors, getters, setters
     public ApiResponse() {
 
     }
-    public ApiResponse(int status, boolean success, String message, T data) {
+    public ApiResponse(int status, boolean success, String message, T result) {
         this.status = status;
         this.success = success;
         this.message = message;
-        this.data = data;
+        this.result = result;
     }
 
     public int getStatus() {
@@ -41,11 +41,11 @@ public class ApiResponse<T> {
         this.message = message;
     }
 
-    public T getData() {
-        return data;
+    public T getResult() {
+        return result;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setResult(T result) {
+        this.result = result;
     }
 }

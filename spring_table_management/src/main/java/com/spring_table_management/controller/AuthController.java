@@ -6,14 +6,11 @@ import com.spring_table_management.dto.request.LoginRequest;
 import com.spring_table_management.dto.response.ResponseUtil;
 import com.spring_table_management.model.RoleEntity;
 import com.spring_table_management.model.UserEntity;
-import com.spring_table_management.service.UserService;
 import com.spring_table_management.util.JwtTokenUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.spring_table_management.repository.*;
-
-import javax.management.relation.Role;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +73,6 @@ public class AuthController {
                 return ResponseUtil.response(ApiStatus.USER_ALREADY_EXISTS);
             }
             UserEntity newUser = new UserEntity();
-            newUser.setFullName(registerRequest.getFullName());
             newUser.setUsername(registerRequest.getUsername());
             newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             newUser.setEmail(registerRequest.getEmail());

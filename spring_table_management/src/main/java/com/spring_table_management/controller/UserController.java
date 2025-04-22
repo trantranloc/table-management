@@ -22,6 +22,11 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/roles")
+    public ResponseEntity<?> getAllRoles() {
+        return userService.getAllRoles();
+    }
+
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
         return userService.getAllUsers();
@@ -31,7 +36,6 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         return userService.findUserById(id);
     }
-
 
     @PostMapping()
     public ResponseEntity<?> createUser(@RequestBody UserEntity user) {

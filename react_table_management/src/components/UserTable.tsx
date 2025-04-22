@@ -1,48 +1,113 @@
 import React from 'react';
-import UserRow from './UserRow';
+import { Pencil, Trash2 } from 'lucide-react';
 import { User } from '../type/user.type';
 
 interface UserTableProps {
     users: User[];
-    onEdit: (user: User) => void;
+    onEdit: (id: string) => void;
     onDelete: (id: string) => void;
-    formatRoleName: (role: string) => string;
+    loading: boolean;
 }
 
-const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, formatRoleName }) => {
+const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, loading }) => {
     return (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-                <table className="w-full">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3">ID</th>
-                            <th className="px-6 py-3">Username</th>
-                            <th className="px-6 py-3">Email</th>
-                            <th className="px-6 py-3">Phone</th>
-                            <th className="px-6 py-3">Roles</th>
-                            <th className="px-6 py-3">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {users.map((user) => (
-                            <UserRow
-                                key={user.id}
-                                user={user}
-                                onEdit={onEdit}
-                                onDelete={onDelete}
-                                formatRoleName={formatRoleName}
-                            />
-                        ))}
-                        {users.length === 0 && (
-                            <tr>
-                                <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
-                                    No users found
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+        <div className="mt-6">
+            <div className="flex flex-col">
+                <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            {loading ? (
+                                <div className="flex justify-center items-center h-32">
+                                    <div className="text-gray-500">Đang tải...</div>
+                                </div>
+                            ) : (
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                ID
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                Tên người dùng
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                Email
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                Số điện thoại
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                            >
+                                                Vai trò
+                                            </th>
+                                            <th scope="col" className="relative px-6 py-3">
+                                                <span className="sr-only">Actions</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {users.map((user) => (
+                                            <tr key={user.id}>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {user.id}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="text-sm font-medium text-gray-900">{user.username}</div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {user.email}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                    {user.phone}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <div className="flex flex-wrap gap-1">
+                                                        {user.roles && user.roles.map((role) => (
+                                                            <span
+                                                                key={role.id}
+                                                                className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
+                                                            >
+                                                                {role.name}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                    <button
+                                                        onClick={() => onEdit(user.id.toString())}
+                                                        className="text-indigo-600 hover:text-indigo-900 mr-4"
+                                                    >
+                                                        <Pencil className="h-5 w-5" />
+                                                    </button>
+                                                    <button
+                                                        onClick={() => onDelete(user.id.toString())}
+                                                        className="text-red-600 hover:text-red-900"
+                                                    >
+                                                        <Trash2 className="h-5 w-5" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

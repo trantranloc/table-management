@@ -29,6 +29,9 @@ public class UserService {
     public ResponseEntity<?> getAllUsers() {
         return ResponseUtil.response(ApiStatus.SUCCESS,userRepository.findAll());
     }
+    public ResponseEntity<?> getAllRoles() {
+        return ResponseUtil.response(ApiStatus.SUCCESS,roleRepository.findAll());
+    }
 
     public ResponseEntity<?> findUserById(String id) {
         Optional<UserEntity> user = userRepository.findById(id);

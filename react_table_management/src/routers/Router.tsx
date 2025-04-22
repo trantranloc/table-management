@@ -1,16 +1,15 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "../pages/Login";
-import BookingList from "../components/BookingList";
-import BookingForm from "../components/BookingForm";
 import AdminLayout from "../layouts/AdminLayout";
-import { TableManagement } from "../pages/admin/TableManagement";
 import Dashboard from "../pages/admin/Dashboard";
 import Intro from "../pages/user/Intro";
 import UserLayout from "../layouts/UserLayout";
 import EmployeeTableManager from "../pages/user/BookingPage";
 import Register from "../pages/Register";
-import UserManagement from "../pages/admin/UserManagement";
+import TableManager from "../pages/admin/TableManager";
+import UserManager from "../pages/admin/UserManager";
+import BookingManagement from "../pages/admin/BookingManager";
 
 function Router() {
     return (
@@ -27,10 +26,9 @@ function Router() {
             {/* Routes cho admin */}
             <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
-                <Route path="tables" element={<TableManagement />} />
-                <Route path="employees" element={<UserManagement />} />
-                <Route path="bookings" element={<BookingList />} />
-                <Route path="create-booking" element={<BookingForm />} />
+                <Route path="tables" element={<TableManager />} />
+                <Route path="employees" element={<UserManager />} />
+                <Route path="bookings" element={<BookingManagement />} />
             </Route>
 
             {/* Các route chung */}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 interface Table {
     id: string;
@@ -33,17 +32,15 @@ const EmployeeBookingPage: React.FC = () => {
     const [submitting, setSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    // Mock data
-    const mockTables: Table[] = [
-        { id: '1', tableNumber: 'T01', capacity: 4, floor: 1, status: 'AVAILABLE' },
-        { id: '2', tableNumber: 'T02', capacity: 6, floor: 2, status: 'BOOKED' },
-        { id: '3', tableNumber: 'T03', capacity: 2, floor: 1, status: 'AVAILABLE' },
-        { id: '4', tableNumber: 'T04', capacity: 8, floor: 3, status: 'PROCESSING' },
-        { id: '5', tableNumber: 'T05', capacity: 4, floor: 2, status: 'AVAILABLE' },
-    ];
-
     useEffect(() => {
         // Mock data for demo
+        const mockTables: Table[] = [
+            { id: '1', tableNumber: 'T01', capacity: 4, floor: 1, status: 'AVAILABLE' },
+            { id: '2', tableNumber: 'T02', capacity: 6, floor: 2, status: 'BOOKED' },
+            { id: '3', tableNumber: 'T03', capacity: 2, floor: 1, status: 'AVAILABLE' },
+            { id: '4', tableNumber: 'T04', capacity: 8, floor: 3, status: 'PROCESSING' },
+            { id: '5', tableNumber: 'T05', capacity: 4, floor: 2, status: 'AVAILABLE' },
+        ];
         setTables(mockTables);
         setLoading(false);
         // Real API call (uncomment when ready)

@@ -33,7 +33,7 @@ const Intro: React.FC = () => {
           Book your table with ease and enjoy a seamless dining experience!
         </motion.p>
         <motion.a
-          href="/booking" // Replace with actual booking page route
+          href="/home" // Replace with actual booking page route
           whileHover={{ scale: 1.1, boxShadow: '0 0 20px rgba(255,255,255,0.5)' }}
           whileTap={{ scale: 0.95 }}
           className="inline-block bg-white text-indigo-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-indigo-100 transition duration-300"

@@ -1,20 +1,54 @@
-version: '3'
+version: '3.8'
+
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./spring_table_management
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./spring_table_management:/app  # Chỉ dùng trong dev
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/table_management?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=12345678
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update  # Tùy chọn: tự động tạo schema
+    depends_on:
+      - db
     networks:
       - app-network
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./react_table_management
+      dockerfile: Dockerfile
     ports:
       - "3000:80"
     depends_on:
       - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:8080  
     networks:
       - app-network
+
+  db:
+    image: mysql:8.0  # Cố định phiên bản
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=table_management
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=app_password
+      - MYSQL_ROOT_PASSWORD=12345678
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  mysql-data:
 
 networks:
   app-network:

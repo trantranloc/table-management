@@ -18,7 +18,7 @@ export enum BookingStatus {
   PENDING = "PENDING",
   CONFIRMED = "CONFIRMED",
   CANCELLED = "CANCELLED",
-  SERVED = "SERVED"
+  COMPLETED = "COMPLETED"
 }
 
 export type BookingRequest = Pick<Booking, 'customerName' | 'phone' | 'numberOfPeople' | 'bookingTime' | 'note'>;

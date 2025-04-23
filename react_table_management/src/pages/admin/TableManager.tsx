@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PlusCircle, Filter, Search, X } from 'lucide-react';
+import { PlusCircle, Search, X } from 'lucide-react';
 import { Table } from '../../type/table.type';
-import TableTable from '../../components/TableTable';
 import tableService from '../../services/table.service';
+import TableTable from '../../components/admin/TableTable';
 import TableForm from '../../components/admin/Tableform';
 
 const TableManager: React.FC = () => {
@@ -11,7 +11,7 @@ const TableManager: React.FC = () => {
         tableNumber: '',
         capacity: 0,
         floor: 1,
-        status: 'AVAILABLE'
+        status: 'AVAILABLE',
     });
     const [editingId, setEditingId] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -25,8 +25,8 @@ const TableManager: React.FC = () => {
             setLoading(true);
             try {
                 const response = await tableService.fetchAllTables();
-                setTables(response.result);
-            } catch {
+                setTables(response.result); // Chỉnh sửa theo cấu trúc dữ liệu trả về
+            } catch (err) {
                 setError('Failed to load table list');
             } finally {
                 setLoading(false);
@@ -42,6 +42,7 @@ const TableManager: React.FC = () => {
         try {
             if (editingId) {
                 // Update existing table
+                await tableService.updateTable(editingId, formData);
                 setTables(tables.map(table =>
                     table.id === editingId ? { ...table, ...formData } : table
                 ));
@@ -52,7 +53,7 @@ const TableManager: React.FC = () => {
             }
             resetForm();
         } catch (err) {
-            console.error("Error saving table:", err);
+            console.error('Error saving table:', err);
             setError('Error saving table information');
         } finally {
             setLoading(false);
@@ -63,17 +64,11 @@ const TableManager: React.FC = () => {
         try {
             setLoading(true);
             const response = await tableService.fetchTableById(id);
-
-            if (response && response.result) {
-                const { id: _, ...tableData } = response.result;
-                setFormData({ ...tableData });
-                setEditingId(id);
-                setIsFormVisible(true);
-            } else {
-                throw new Error("No table data returned");
-            }
+            setFormData(response.result); // Chỉnh sửa theo cấu trúc dữ liệu trả về
+            setEditingId(id);
+            setIsFormVisible(true);
         } catch (err) {
-            console.error("Error fetching table:", err);
+            console.error('Error fetching table:', err);
             setError('Failed to load table information');
         } finally {
             setLoading(false);
@@ -85,8 +80,9 @@ const TableManager: React.FC = () => {
         setLoading(true);
         try {
             await tableService.deleteTable(id);
-            setTables(tables.filter(table => table.id !== id));
-        } catch {
+            setTables(tables.filter((table) => table.id !== id));
+        } catch (err) {
+            console.error('Error deleting table:', err.message);
             setError('Error deleting table');
         } finally {
             setLoading(false);
@@ -114,7 +110,7 @@ const TableManager: React.FC = () => {
             tableNumber: '',
             capacity: 0,
             floor: 1,
-            status: 'AVAILABLE'
+            status: 'AVAILABLE',
         });
         setIsFormVisible(false);
         setError(null);
@@ -213,26 +209,21 @@ const TableManager: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="max-w-lg w-full lg:max-w-xs sm:ml-4">
-                        <label htmlFor="status-filter" className="sr-only">
-                            Filter by status
+                    <div className="mt-2 sm:mt-0 sm:ml-4">
+                        <label htmlFor="statusFilter" className="sr-only">
+                            Status Filter
                         </label>
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <Filter className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                            </div>
-                            <select
-                                id="status-filter"
-                                name="status-filter"
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value)}
-                            >
-                                <option value="all">All statuses</option>
-                                <option value="AVAILABLE">Available</option>
-                                <option value="UNAVAILABLE">Unavailable</option>
-                            </select>
-                        </div>
+                        <select
+                            id="statusFilter"
+                            name="statusFilter"
+                            className="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                        >
+                            <option value="all">All</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="OCCUPIED">Occupied</option>
+                        </select>
                     </div>
                 </div>
             </div>

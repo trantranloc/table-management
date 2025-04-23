@@ -1,8 +1,10 @@
 package com.spring_table_management.service;
 
 import com.spring_table_management.dto.response.ApiStatus;
+import com.spring_table_management.dto.response.ResponseUtil;
 import com.spring_table_management.model.TableEntity;
 import com.spring_table_management.repository.TableRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,7 +50,26 @@ public class TableService {
         return tableRepository.save(tableEntity);
     }
 
-    public void deleteTable(String id) {
-        tableRepository.deleteById(id);
+    public ResponseEntity<?> deleteTable( String id) {
+    try {
+        Optional<TableEntity> table = tableRepository.findById(id);
+        if (table.isPresent() && TableEntity.Status.AVAILABLE == table.get().getStatus()) {
+            // Xóa bảng
+            tableRepository.deleteById(id);
+            return ResponseUtil.response(ApiStatus.SUCCESS, "Table successfully deleted");
+        } else {
+            return ResponseUtil.response(ApiStatus.NOT_FOUND, "Table not found or not available for deletion");
+        }
+    } catch (Exception e) {
+        return ResponseUtil.response(ApiStatus.ERROR, e.getMessage());
     }
+}
+public ResponseEntity<?> updateStatus(String tableId, String newStatus) {
+        TableEntity table = tableRepository.findById(tableId)
+                .orElseThrow(() -> new RuntimeException("Table not found"));
+
+        table.setStatus(TableEntity.Status.valueOf(newStatus));
+        return ResponseUtil.response(ApiStatus.SUCCESS, tableRepository.save(table));
+    }
+
 }

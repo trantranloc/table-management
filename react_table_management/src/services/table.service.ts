@@ -25,10 +25,13 @@ const tableService = {
         return response.data;
     },
 
-    deleteTable: async (id: string): Promise<BaseResponse<void>> => {
-        const response = await axiosClient.delete<BaseResponse<void>>(`${API_URL}/${id}`);
-        return response.data;
-    }
+    deleteTable: async (id: string): Promise<void> => {
+        await axiosClient.delete<BaseResponse<void>>(`${API_URL}/${id}`);
+    },
+    updateTableStatus: async (id: string, status: string): Promise<BaseResponse<Table>> => {
+            const response = await axiosClient.patch<BaseResponse<Table>>(`${API_URL}/${id}`, { status });
+            return response.data;
+        },
 };
 
 export default tableService;

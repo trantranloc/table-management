@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Outlet, useLocation, NavLink } from 'react-router-dom';
+import { Outlet, NavLink } from 'react-router-dom';
 import { Menu, Users, Book, BarChart, LogOut } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 const AdminLayout: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const location = useLocation();
-
+    const {logout} = useAuth()
     // Sidebar menu items
     const menuItems = [
         { path: '/admin', name: 'Dashboard', icon: <BarChart size={20} /> },
-        { path: '/admin/employees', name: 'Employee Management', icon: <Users size={20} /> },
+        { path: '/admin/employees', name: 'User Management', icon: <Users size={20} /> },
         { path: '/admin/tables', name: 'Table Management', icon: <Book size={20} /> },
         { path: '/admin/bookings', name: 'Reservations', icon: <Book size={20} /> },
     ];
@@ -55,8 +55,10 @@ const AdminLayout: React.FC = () => {
                         <NavLink
                             to="/login"
                             className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-blue-700 transition duration-200"
-                            onClick={() => setSidebarOpen(false)}
-                        >
+                            onClick={() => {
+                                logout(); 
+                                setSidebarOpen(false);
+                            }}                        >
                             <LogOut size={20} />
                             <span>Log Out</span>
                         </NavLink>

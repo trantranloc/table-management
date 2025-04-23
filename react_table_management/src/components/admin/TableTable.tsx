@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
-import { Table } from '../type/table.type';
+import { Table } from '../../type/table.type';
 
 interface TableTableProps {
     tables: Table[];

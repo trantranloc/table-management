@@ -42,7 +42,7 @@ public class BookingEntity {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public enum Status {
-        PENDING, CONFIRMED, CANCELLED, SERVED
+        PENDING, CONFIRMED, CANCELLED, COMPLETED
     }
 
     public String getId() {

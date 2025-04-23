@@ -111,7 +111,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
                                         ? 'text-yellow-600'
                                         : booking.status === BookingStatus.CONFIRMED
                                             ? 'text-green-600'
-                                            : booking.status === BookingStatus.SERVED
+                                            : booking.status === BookingStatus.COMPLETED
                                                 ? 'text-blue-600'
                                                 : 'text-red-600'
                                     }`}

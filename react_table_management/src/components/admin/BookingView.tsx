@@ -62,7 +62,7 @@ const BookingView: React.FC<BookingViewProps> = ({ bookings, tables, onViewBooki
                                 <option value="PENDING">Pending</option>
                                 <option value="CONFIRMED">Confirmed</option>
                                 <option value="CANCELLED">Cancelled</option>
-                                <option value="SERVED">Served</option>
+                                <option value="COMPLETED">Served</option>
                             </select>
                         </div>
                     </div>
@@ -92,7 +92,7 @@ const BookingView: React.FC<BookingViewProps> = ({ bookings, tables, onViewBooki
                                                             ? 'bg-yellow-100 text-yellow-800'
                                                             : booking.status === BookingStatus.CONFIRMED
                                                                 ? 'bg-green-100 text-green-800'
-                                                                : booking.status === BookingStatus.SERVED
+                                                                : booking.status === BookingStatus.COMPLETED
                                                                     ? 'bg-blue-100 text-blue-800'
                                                                     : 'bg-red-100 text-red-800'}`}>
                                                         {booking.status}

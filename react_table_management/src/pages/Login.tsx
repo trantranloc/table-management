@@ -1,14 +1,15 @@
 import { useState } from "react";
-import authService from "../services/authService";
+import authService from "../services/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { isAdmin } from "../utils/authUtils";
 
 const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
-    const { login, isAdmin } = useAuth();
+    const { login } = useAuth();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -16,10 +17,10 @@ const Login = () => {
 
         try {
             const data = await authService.login({ username, password });
-            console.log(data)
             if (data.success) {
                 login(data.result.token);
-                if (isAdmin) {
+
+                if (isAdmin()) {
                     navigate("/admin");
                 } else {
                     navigate("/");
@@ -27,10 +28,11 @@ const Login = () => {
             } else {
                 setError(data.message);
             }
-        } catch (error) {
-            if ((error as any).response) {
-                const message = (error as any).response.data.message;
-                setError(message);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error occurred.");
             }
         }
     };

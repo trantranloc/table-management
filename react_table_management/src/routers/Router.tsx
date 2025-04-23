@@ -4,8 +4,9 @@ import Login from "../pages/Login";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../pages/admin/Dashboard";
 import Intro from "../pages/user/Intro";
+import Home from "../pages/user/Home";
 import UserLayout from "../layouts/UserLayout";
-import EmployeeTableManager from "../pages/user/BookingPage";
+import EmployeeTableManager from "../pages/staff/BookingPage";
 import Register from "../pages/Register";
 import TableManager from "../pages/admin/TableManager";
 import UserManager from "../pages/admin/UserManager";
@@ -32,6 +33,8 @@ function Router() {
             </Route>
 
             {/* Các route chung */}
+
+            <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 

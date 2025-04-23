@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, Filter, Search, X } from 'lucide-react';
 import { User, Role } from '../../type/user.type';
-import userService from '../../services/userService';
-import UserForm from '../../components/UserForm';
-import UserTable from '../../components/UserTable';
+import userService from '../../services/user.service';
+import UserForm from '../../components/admin/UserForm';
+import UserTable from '../../components/admin/UserTable';
 
 const UserManager: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);

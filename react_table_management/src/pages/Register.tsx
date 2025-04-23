@@ -1,5 +1,5 @@
 import { useState } from "react";
-import authService from "../services/authService";
+import authService from "../services/auth.service";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -12,7 +12,7 @@ const Register = () => {
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(""); 
+        setError("");
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {

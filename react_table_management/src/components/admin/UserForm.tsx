@@ -1,6 +1,6 @@
 import React from 'react';
 import { PlusCircle, Save } from 'lucide-react';
-import { Role, User } from '../type/user.type';
+import { Role, User } from '../../type/user.type';
 
 interface UserFormProps {
     formData: Partial<Omit<User, 'id'>>;

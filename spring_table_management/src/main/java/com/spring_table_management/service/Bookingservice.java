@@ -2,12 +2,8 @@ package com.spring_table_management.service;
 
 import com.spring_table_management.dto.response.ApiStatus;
 import com.spring_table_management.dto.response.ResponseUtil;
-import com.spring_table_management.model.BookingEntity;
-import com.spring_table_management.model.TableEntity;
-import com.spring_table_management.model.UserEntity;
-import com.spring_table_management.repository.BookingRepository;
-import com.spring_table_management.repository.TableRepository;
-import com.spring_table_management.repository.UserRepository;
+import com.spring_table_management.model.*;
+import com.spring_table_management.repository.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class Bookingservice {
+public class BookingService {
     private final BookingRepository bookingRepository;
     private final TableRepository tableRepository;
     private final UserRepository userRepository;
 
-    public Bookingservice(BookingRepository bookingRepository, TableRepository tableRepository, UserRepository userRepository) {
+    public BookingService(BookingRepository bookingRepository, TableRepository tableRepository,
+            UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.tableRepository = tableRepository;
         this.userRepository = userRepository;
@@ -29,12 +26,15 @@ public class Bookingservice {
     public List<BookingEntity> getAllBookings() {
         return bookingRepository.findAll();
     }
+
     public Optional<BookingEntity> getBookingById(String id) {
         return bookingRepository.findById(id);
     }
+
     public BookingEntity createBooking(BookingEntity bookingEntity) {
         return bookingRepository.save(bookingEntity);
     }
+
     public ResponseEntity<?> updateBooking(String id, BookingEntity booking) {
         try {
             BookingEntity existing = bookingRepository.findById(id).orElse(null);
@@ -45,7 +45,8 @@ public class Bookingservice {
             // Bàn mới (nếu có)
             if (booking.getTable() != null && booking.getTable().getId() != null) {
                 TableEntity newTable = tableRepository.findById(booking.getTable().getId()).orElse(null);
-                if (newTable == null) return ResponseUtil.response(ApiStatus.NOT_FOUND, "Table not found");
+                if (newTable == null)
+                    return ResponseUtil.response(ApiStatus.NOT_FOUND, "Table not found");
 
                 if (newTable.getStatus() != TableEntity.Status.AVAILABLE)
                     return ResponseUtil.response(ApiStatus.TABLE_UNAVAILABLE);
@@ -88,7 +89,30 @@ public class Bookingservice {
             return ResponseUtil.response(ApiStatus.ERROR, e.getMessage());
         }
     }
+
     public void deleteBooking(String id) {
         bookingRepository.deleteById(id);
     }
+
+    public ResponseEntity<?> updateStatus(String bookingId, String newStatus) {
+        BookingEntity booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        booking.setStatus(BookingEntity.Status.valueOf(newStatus));
+        return ResponseUtil.response(ApiStatus.SUCCESS, bookingRepository.save(booking));
+    }
+
+    public ResponseEntity<?> updateTable(String bookingId, String tableId) {
+
+        BookingEntity booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+        TableEntity table = tableRepository.findById(tableId)
+                .orElseThrow(() -> new RuntimeException("Table not found"));
+
+        table.setStatus(TableEntity.Status.UNAVAILABLE);
+        booking.setTable(table);
+        return ResponseUtil.response(ApiStatus.SUCCESS, bookingRepository.save(booking));
+
+    }
+
 }

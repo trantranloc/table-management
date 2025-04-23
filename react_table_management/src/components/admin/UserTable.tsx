@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
-import { User } from '../type/user.type';
+import { User } from '../../type/user.type';
 
 interface UserTableProps {
     users: User[];

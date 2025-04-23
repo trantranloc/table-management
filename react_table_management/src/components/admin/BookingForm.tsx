@@ -1,25 +1,12 @@
 import React from 'react';
+import { BookingRequest } from '../../type/booking.type';
+import { Table } from '../../type/table.type';
+
 
 interface BookingFormProps {
-    formData: {
-        customerName: string;
-        customerPhone: string;
-        date: string;
-        time: string;
-        guests: number;
-        overrideStatus: boolean;
-    };
-    setFormData: React.Dispatch<
-        React.SetStateAction<{
-            customerName: string;
-            customerPhone: string;
-            date: string;
-            time: string;
-            guests: number;
-            overrideStatus: boolean;
-        }>
-    >;
-    selectedTable: { id: string; tableNumber: string; capacity: number } | null;
+    formData: BookingRequest;
+    setFormData: React.Dispatch<React.SetStateAction<BookingRequest>>;
+    selectedTable: Table | null;
     onSubmit: (e: React.FormEvent) => void;
     onCancel: () => void;
     submitting: boolean;
@@ -38,12 +25,18 @@ const BookingForm: React.FC<BookingFormProps> = ({
     successMessage
 }) => {
     const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLInputElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type } = e.target;
+        const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
+
         setFormData((prev) => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : name === 'guests' ? Number(value) : value,
+            [name]: type === 'checkbox'
+                ? checked
+                : name === 'numberOfPeople'
+                    ? Number(value)
+                    : value,
         }));
     };
 
@@ -64,28 +57,28 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="customerPhone" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
                     Customer Phone
                 </label>
                 <input
-                    id="customerPhone"
-                    name="customerPhone"
+                    id="phone"
+                    name="phone"
                     type="text"
-                    value={formData.customerPhone}
+                    value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     required
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
-                    Booking Date
+                <label htmlFor="bookingTime" className="block text-sm font-medium text-gray-700 mb-1">
+                    Booking Date & Time
                 </label>
                 <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    value={formData.date}
+                    id="bookingTime"
+                    name="bookingTime"
+                    type="datetime-local"
+                    value={formData.bookingTime}
                     onChange={handleInputChange}
                     min={new Date().toISOString().split('T')[0]}
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -93,46 +86,25 @@ const BookingForm: React.FC<BookingFormProps> = ({
                 />
             </div>
             <div className="mb-4">
-                <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-1">
-                    Booking Time
-                </label>
-                <input
-                    id="time"
-                    name="time"
-                    type="time"
-                    value={formData.time}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-                <label htmlFor="guests" className="block text-sm font-medium text-gray-700 mb-1">
+                <label htmlFor="numberOfPeople" className="block text-sm font-medium text-gray-700 mb-1">
                     Number of Guests
                 </label>
                 <input
-                    id="guests"
-                    name="guests"
+                    id="numberOfPeople"
+                    name="numberOfPeople"
                     type="number"
-                    value={formData.guests}
+                    value={formData.numberOfPeople}
                     onChange={handleInputChange}
                     min="1"
+                    max={selectedTable ? selectedTable.capacity : undefined}
                     className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     required
                 />
-            </div>
-            <div className="mb-4">
-                <label htmlFor="overrideStatus" className="flex items-center text-sm font-medium text-gray-700">
-                    <input
-                        id="overrideStatus"
-                        name="overrideStatus"
-                        type="checkbox"
-                        checked={formData.overrideStatus}
-                        onChange={handleInputChange}
-                        className="mr-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                    />
-                    Override Table Status (Admin Only)
-                </label>
+                {selectedTable && (
+                    <p className="mt-1 text-sm text-gray-500">
+                        Table capacity: {selectedTable.capacity} people
+                    </p>
+                )}
             </div>
 
             {formError && <p className="text-sm text-red-600 mb-4">{formError}</p>}
@@ -150,11 +122,11 @@ const BookingForm: React.FC<BookingFormProps> = ({
                     type="submit"
                     disabled={submitting}
                     className={`py-2 px-4 rounded-md font-medium transition duration-200 ${submitting
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-indigo-600 text-white hover:bg-indigo-700'
+                        ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        : 'bg-indigo-600 text-white hover:bg-indigo-700'
                         }`}
                 >
-                    {submitting ? 'Submitting...' : 'Submit Booking'}
+                    {submitting ? 'Submitting...' : 'Submit Bookings'}
                 </button>
             </div>
         </form>

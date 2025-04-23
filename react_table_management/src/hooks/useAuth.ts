@@ -1,67 +1,38 @@
-import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 import { DecodedToken } from "../type/auth.type";
 
 const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const decodedToken = jwtDecode<DecodedToken>(token);
-                const isTokenValid = decodedToken.exp > Math.floor(Date.now() / 1000);
-
-                if (isTokenValid) {
-                    setIsAuthenticated(true);
-                    if (decodedToken.roles.includes("ROLE_ADMIN")) {
-                        setIsAdmin(true);
-                    }
-                } else {
-                    logout();
-                }
-            } catch (error) {
-                console.error("Token not :", error);
-                logout();
-            }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode<DecodedToken>(token);
+        if (decoded.exp > Date.now() / 1000) {
+          setIsAuthenticated(true);
+        } else {
+          logout();
         }
-    }, []);
+      } catch {
+        logout();
+      }
+    }
+  }, []);
 
-    const login = (token: string) => {
-        localStorage.setItem("token", token);
+  const login = (token: string) => {
+    localStorage.setItem("token", token);
+    const decoded = jwtDecode<DecodedToken>(token);
+    localStorage.setItem("user", JSON.stringify(decoded));
+    setIsAuthenticated(true);
+  };
 
-        try {
-            const decodedToken = jwtDecode<DecodedToken>(token);
-            setIsAuthenticated(true);
-            if (decodedToken.roles.includes("ROLE_ADMIN")) {
-                setIsAdmin(true);
-            }
+  const logout = () => {
+    localStorage.clear();
+    setIsAuthenticated(false);
+  };
 
-            // Lưu thông tin user vào localStorage
-            localStorage.setItem("user", JSON.stringify({
-                userId: decodedToken.userId,
-                username: decodedToken.username,
-                roles: decodedToken.roles
-            }));
-        } catch (error) {
-            console.error("Token không hợp lệ:", error);
-        }
-    };
-
-    const logout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        setIsAuthenticated(false);
-        setIsAdmin(false);
-    };
-
-    return {
-        isAuthenticated,
-        isAdmin,
-        login,
-        logout,
-    };
+  return { isAuthenticated, login, logout };
 };
-
 export default useAuth;

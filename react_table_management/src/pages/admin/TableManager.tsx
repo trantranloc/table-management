@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, Filter, Search, X } from 'lucide-react';
 import { Table } from '../../type/table.type';
-import tableService from '../../services/tableService';
 import TableForm from '../../components/Tableform';
 import TableTable from '../../components/TableTable';
+import tableService from '../../services/table.service';
 
 
 const TableManager: React.FC = () => {

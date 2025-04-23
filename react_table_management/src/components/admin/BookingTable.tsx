@@ -1,12 +1,6 @@
 import React from 'react';
+import { Table } from '../../type/table.type';
 
-interface Table {
-    id: string;
-    tableNumber: string;
-    capacity: number;
-    floor: number;
-    status: 'BOOKED' | 'PROCESSING' | 'AVAILABLE';
-}
 
 interface BookingTableProps {
     tables: Table[];
@@ -47,7 +41,7 @@ const BookingTable: React.FC<BookingTableProps> = ({ tables, onBookTable, loadin
                             className={
                                 table.status === 'AVAILABLE'
                                     ? 'text-green-600'
-                                    : table.status === 'BOOKED'
+                                    : table.status === 'UNAVAILABLE'
                                         ? 'text-red-600'
                                         : 'text-yellow-600'
                             }

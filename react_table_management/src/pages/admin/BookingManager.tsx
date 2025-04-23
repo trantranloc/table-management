@@ -205,7 +205,7 @@ const BookingManagement: React.FC = () => {
 
     return (
         <div className="min-h-[calc(100vh-4rem)] flex flex-col items-center px-4 py-8 bg-gray-100">
-            <div className="max-w-7xl w-full">
+            <div className="max-w-7l w-full">
                 <div className="pb-5 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
                     <h2 className="text-3xl font-semibold text-gray-800">Admin Table Booking</h2>
                     <div className="mt-3 sm:mt-0 sm:ml-4">

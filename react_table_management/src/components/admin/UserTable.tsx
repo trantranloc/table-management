@@ -18,7 +18,11 @@ const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, loading 
                         <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                             {loading ? (
                                 <div className="flex justify-center items-center h-32">
-                                    <div className="text-gray-500">Đang tải...</div>
+                                    <div className="text-gray-500">Loading...</div>
+                                </div>
+                            ) : users.length === 0 ? (
+                                <div className="flex justify-center items-center h-32">
+                                    <div className="text-gray-500">No users available</div>
                                 </div>
                             ) : (
                                 <table className="min-w-full divide-y divide-gray-200">
@@ -34,7 +38,7 @@ const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, loading 
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Tên người dùng
+                                                Username
                                             </th>
                                             <th
                                                 scope="col"
@@ -46,13 +50,13 @@ const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, loading 
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Số điện thoại
+                                                Phone
                                             </th>
                                             <th
                                                 scope="col"
                                                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                             >
-                                                Vai trò
+                                                Roles
                                             </th>
                                             <th scope="col" className="relative px-6 py-3">
                                                 <span className="sr-only">Actions</span>
@@ -72,30 +76,38 @@ const UserTable: React.FC<UserTableProps> = ({ users, onEdit, onDelete, loading 
                                                     {user.email}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    {user.phone}
+                                                    {user.phone || 'N/A'}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <div className="flex flex-wrap gap-1">
-                                                        {user.roles && user.roles.map((role) => (
-                                                            <span
-                                                                key={role.id}
-                                                                className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
-                                                            >
-                                                                {role.name}
+                                                        {user.roles && user.roles.length > 0 ? (
+                                                            user.roles.map((role) => (
+                                                                <span
+                                                                    key={role.id}
+                                                                    className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"
+                                                                >
+                                                                    {role.name}
+                                                                </span>
+                                                            ))
+                                                        ) : (
+                                                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                                No roles
                                                             </span>
-                                                        ))}
+                                                        )}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                     <button
                                                         onClick={() => onEdit(user.id.toString())}
                                                         className="text-indigo-600 hover:text-indigo-900 mr-4"
+                                                        aria-label="Edit"
                                                     >
                                                         <Pencil className="h-5 w-5" />
                                                     </button>
                                                     <button
                                                         onClick={() => onDelete(user.id.toString())}
                                                         className="text-red-600 hover:text-red-900"
+                                                        aria-label="Delete"
                                                     >
                                                         <Trash2 className="h-5 w-5" />
                                                     </button>

@@ -35,7 +35,7 @@ const TableForm: React.FC<TableFormProps> = ({
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                     <label htmlFor="tableNumber" className="block text-sm font-medium text-gray-700">
-                        Số bàn
+                        Table Number
                     </label>
                     <div className="mt-1">
                         <input
@@ -52,7 +52,7 @@ const TableForm: React.FC<TableFormProps> = ({
 
                 <div className="sm:col-span-3">
                     <label htmlFor="capacity" className="block text-sm font-medium text-gray-700">
-                        Sức chứa
+                        Capacity
                     </label>
                     <div className="mt-1">
                         <input
@@ -70,7 +70,7 @@ const TableForm: React.FC<TableFormProps> = ({
 
                 <div className="sm:col-span-3">
                     <label htmlFor="floor" className="block text-sm font-medium text-gray-700">
-                        Tầng
+                        Floor
                     </label>
                     <div className="mt-1">
                         <input
@@ -88,7 +88,7 @@ const TableForm: React.FC<TableFormProps> = ({
 
                 <div className="sm:col-span-3">
                     <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                        Trạng thái
+                        Status
                     </label>
                     <div className="mt-1">
                         <select
@@ -98,8 +98,8 @@ const TableForm: React.FC<TableFormProps> = ({
                             onChange={handleInputChange}
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
-                            <option value="AVAILABLE">Trống</option>
-                            <option value="UNAVAILABLE">Không khả dụng</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="UNAVAILABLE">Unavailable</option>
                         </select>
                     </div>
                 </div>
@@ -111,7 +111,7 @@ const TableForm: React.FC<TableFormProps> = ({
                     disabled={loading}
                     className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm disabled:opacity-50"
                 >
-                    {loading ? 'Đang xử lý...' : (editingId ? 'Cập nhật' : 'Thêm')}
+                    {loading ? 'Processing...' : (editingId ? 'Update' : 'Add')}
                 </button>
                 <button
                     type="button"
@@ -119,7 +119,7 @@ const TableForm: React.FC<TableFormProps> = ({
                     className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
                     onClick={onCancel}
                 >
-                    Hủy
+                    Cancel
                 </button>
             </div>
         </form>

@@ -1,6 +1,5 @@
-// src/layouts/AdminLayout.tsx
 import React, { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, NavLink } from 'react-router-dom';
 import { Menu, Users, Book, BarChart, LogOut } from 'lucide-react';
 
 const AdminLayout: React.FC = () => {
@@ -10,9 +9,9 @@ const AdminLayout: React.FC = () => {
     // Sidebar menu items
     const menuItems = [
         { path: '/admin', name: 'Dashboard', icon: <BarChart size={20} /> },
-        { path: '/admin/employees', name: 'Quản lý nhân viên', icon: <Users size={20} /> },
-        { path: '/admin/tables', name: 'Quản lý bàn', icon: <Book size={20} /> },
-        { path: '/admin/bookings', name: 'Booking', icon: <Book size={20} /> },
+        { path: '/admin/employees', name: 'Employee Management', icon: <Users size={20} /> },
+        { path: '/admin/tables', name: 'Table Management', icon: <Book size={20} /> },
+        { path: '/admin/bookings', name: 'Reservations', icon: <Book size={20} /> },
     ];
 
     return (
@@ -20,13 +19,17 @@ const AdminLayout: React.FC = () => {
             {/* Sidebar */}
             <div
                 className={`bg-blue-800 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                    } md:relative md:translate-x-0 transition duration-200 ease-in-out`}
+                    } md:relative md:translate-x-0 transition duration-200 ease-in-out z-20`}
             >
                 <div className="flex items-center justify-between px-4">
                     <div className="flex items-center space-x-2">
                         <span className="text-2xl font-semibold">Admin Dashboard</span>
                     </div>
-                    <button onClick={() => setSidebarOpen(false)} className="md:hidden">
+                    <button
+                        onClick={() => setSidebarOpen(false)}
+                        className="md:hidden"
+                        aria-label="Close Sidebar"
+                    >
                         <Menu size={24} />
                     </button>
                 </div>
@@ -34,27 +37,29 @@ const AdminLayout: React.FC = () => {
                 <nav>
                     <div className="space-y-2 px-4">
                         {menuItems.map((item) => (
-                            <a
+                            <NavLink
                                 key={item.path}
-                                href={item.path}
-                                className={`flex items-center space-x-2 py-2.5 px-4 rounded transition duration-200 ${location.pathname === item.path
-                                    ? 'bg-blue-700 text-white'
-                                    : 'hover:bg-blue-700'
-                                    }`}
+                                to={item.path}
+                                className={({ isActive }) =>
+                                    `flex items-center space-x-2 py-2.5 px-4 rounded transition duration-200 ${isActive ? 'bg-blue-700 text-white' : 'hover:bg-blue-700'
+                                    }`
+                                }
+                                onClick={() => setSidebarOpen(false)} // Close sidebar on mobile after click
                             >
                                 {item.icon}
                                 <span>{item.name}</span>
-                            </a>
+                            </NavLink>
                         ))}
                     </div>
                     <div className="px-4 mt-8">
-                        <a
-                            href="/login"
+                        <NavLink
+                            to="/login"
                             className="flex items-center space-x-2 py-2.5 px-4 rounded hover:bg-blue-700 transition duration-200"
+                            onClick={() => setSidebarOpen(false)}
                         >
                             <LogOut size={20} />
-                            <span>Đăng xuất</span>
-                        </a>
+                            <span>Log Out</span>
+                        </NavLink>
                     </div>
                 </nav>
             </div>
@@ -67,6 +72,7 @@ const AdminLayout: React.FC = () => {
                         <button
                             onClick={() => setSidebarOpen(true)}
                             className="md:hidden text-gray-600 focus:outline-none"
+                            aria-label="Open Sidebar"
                         >
                             <Menu size={24} />
                         </button>

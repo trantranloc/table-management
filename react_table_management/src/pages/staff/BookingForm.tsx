@@ -35,7 +35,6 @@ const StaffBookingForm: React.FC = () => {
     const [submitting, setSubmitting] = useState(false);
     const navigate = useNavigate();
 
-    // Mock API data (replace with real API call)
     const fetchTables = async () => {
         try {
             // Replace with your API endpoint, e.g., '/api/v1/tables'
@@ -48,20 +47,14 @@ const StaffBookingForm: React.FC = () => {
         }
     };
 
-    // For testing: Mock data
-    const mockTables: Table[] = [
-        { id: '1', tableNumber: 'T01', capacity: 4, floor: 1, status: 'AVAILABLE' },
-        { id: '2', tableNumber: 'T02', capacity: 6, floor: 2, status: 'BOOKED' },
-        { id: '3', tableNumber: 'T03', capacity: 2, floor: 1, status: 'AVAILABLE' },
-        { id: '4', tableNumber: 'T04', capacity: 8, floor: 3, status: 'PROCESSING' },
-    ];
+
 
     useEffect(() => {
         // Comment out mock data and uncomment fetchTables for real API
-        setTables(mockTables);
+        setTables(tables);
         setLoading(false);
-        // fetchTables();
-    }, []);
+        fetchTables();
+    }, [tables]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
